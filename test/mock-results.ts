@@ -16,6 +16,19 @@ export = function (stats: mocha.Stats | undefined, options?: any) {
                 testsuite: [
                     {
                         _attr: {
+                            name: 'Root Suite',
+                            timestamp: '1970-01-01T00:00:00', // ISO timestamp truncated to the second
+                            tests: '0',
+                            failures: '0',
+                            time: '0.0000'
+                        }
+                    }
+                ]
+            },
+            {
+                testsuite: [
+                    {
+                        _attr: {
                             name: 'Foo Bar',
                             timestamp: '1970-01-01T00:00:00',
                             tests: '3',

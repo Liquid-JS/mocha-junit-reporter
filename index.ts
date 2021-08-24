@@ -280,6 +280,7 @@ class MochaJUnitReporter extends mocha.reporters.Base {
             name,
             timestamp: this._Date.now(),
             testData: new Array<ReturnType<MochaJUnitReporter['getTestcaseData']>>(),
+            root: !!suite.root,
             ...suite.file
                 ? { file: suite.file }
                 : {},
@@ -371,7 +372,9 @@ class MochaJUnitReporter extends mocha.reporters.Base {
 
     flush(testsuites: ReturnType<MochaJUnitReporter['getTestsuiteData']>[]) {
         try {
-            this._xml = this.getXml(testsuites)
+            this._xml = this.getXml(testsuites
+                .filter(({ testData }) => !!testData.length)
+            )
 
             this.writeXmlToDisk(this._xml, this._options.mochaFile)
 
@@ -388,9 +391,31 @@ class MochaJUnitReporter extends mocha.reporters.Base {
         const stats = this._runner.stats
         const antMode = this._options.antMode
 
+        if (!suites.find(({ root }) => !!root)) {
+            const properties = generateProperties(this._options)
+            suites.unshift({
+                root: true,
+                time: 0,
+                timestamp: 0,
+                name: this._options.rootSuiteTitle,
+                testData: [],
+                ...antMode
+                    ? {
+                        package: this._options.rootSuiteTitle,
+                        // tslint:disable-next-line: no-non-null-assertion
+                        hostname: this._options.antHostname!,
+                        id: 0,
+                        errors: 0
+                    }
+                    : {},
+                ... (properties.length || antMode)
+                    ? { properties }
+                    : {}
+            })
+        }
+
         let testsuites = suites
-            .filter(({ testData }) => !!testData.length)
-            .map(({ properties, testData, ...suite }) => {
+            .map(({ properties, testData, root, ...suite }) => {
                 const suiteAttr = {
                     ...suite,
                     time: ((suite.time || 0) / 1000).toFixed(4),
