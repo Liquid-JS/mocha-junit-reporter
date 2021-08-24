@@ -9,7 +9,8 @@
     ],
     "scripts": {
         "ci": "yarn lint && yarn test",
-        "lint": "tslint --project . --fix",
+        "lint": "tslint --project .",
+        "lint:fix": "yarn lint --fix",
         "_test": "cross-env MOCHA_FILE=test/mocha.xml mocha -r source-map-support/register -r ts-node/register \"test/*-spec.ts\"",
         "test": "yarn _test --reporter=spec",
         "tdd": "yarn _test --reporter=min --watch",
