@@ -7,6 +7,7 @@ import createStatsCollector from 'mocha/lib/stats-collector'
 import path from 'path'
 import stripAnsi from 'strip-ansi'
 import xml from 'xml'
+
 const debug = Debug('mocha-junit-reporter')
 
 // Save timer references so that times are correct even if Date is stubbed.
@@ -15,19 +16,19 @@ const Date = global.Date
 
 interface ReporterOptions {
     mochaFile: string
+    includePending?: boolean
+    properties?: { [key: string]: any }
+    toConsole: boolean
+    useFullSuiteTitle?: boolean
+    suiteTitleSeparatedBy: string
+    testCaseSwitchClassnameAndName?: boolean
+    rootSuiteTitle: string
+    testsuitesTitle: string
+    outputs?: boolean
     attachments: boolean
     antMode: boolean
     antHostname?: string
     jenkinsMode: boolean
-    properties?: { [key: string]: any }
-    toConsole: boolean
-    rootSuiteTitle: string
-    testsuitesTitle: string
-    suiteTitleSeparatedBy: string
-    useFullSuiteTitle?: boolean
-    testCaseSwitchClassnameAndName?: boolean
-    includePending?: boolean
-    outputs?: boolean
 }
 
 // A subset of invalid characters as defined in http://www.w3.org/TR/xml/#charsets that can occur in e.g. stacktraces
