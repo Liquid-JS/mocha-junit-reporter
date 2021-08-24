@@ -1,46 +1,68 @@
 {
-  "name": "mocha-junit-reporter",
-  "version": "2.0.0",
-  "description": "A JUnit reporter for mocha.",
-  "main": "index.js",
-  "scripts": {
-    "ci": "npm run lint && npm run test",
-    "lint": "./node_modules/.bin/eslint '*.js' 'test/**/*.js'",
-    "test": "MOCHA_FILE=test/mocha.xml node_modules/.bin/mocha test --reporter=spec",
-    "tdd": "MOCHA_FILE=test/mocha.xml node_modules/.bin/mocha test --reporter=min --watch"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/michaelleeallen/mocha-junit-reporter"
-  },
-  "keywords": [
-    "mocha",
-    "junit",
-    "reporter"
-  ],
-  "author": {
-    "name": "Michael Allen",
-    "email": "michael.lee.allen@gmail.com"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "@sinonjs/fake-timers": "^6.0.1",
-    "chai": "^3.0.0",
-    "chai-xml": "^0.3.0",
-    "eslint": "^7.0.0",
-    "mocha": "^7.2.0",
-    "rimraf": "^3.0.2",
-    "test-console": "^1.0.0",
-    "xmllint": "^0.1.1"
-  },
-  "dependencies": {
-    "debug": "^2.2.0",
-    "md5": "^2.1.0",
-    "mkdirp": "~0.5.1",
-    "strip-ansi": "^4.0.0",
-    "xml": "^1.0.0"
-  },
-  "peerDependencies": {
-    "mocha": ">=2.2.5"
-  }
+    "name": "mocha-junit-reporter",
+    "version": "2.0.0",
+    "description": "A JUnit reporter for mocha.",
+    "main": "index.js",
+    "types": "index.d.ts",
+    "files": [
+        "index.js"
+    ],
+    "scripts": {
+        "ci": "yarn lint && yarn test",
+        "lint": "tslint --project . --fix",
+        "_test": "cross-env MOCHA_FILE=test/mocha.xml mocha -r source-map-support/register -r ts-node/register \"test/*-spec.ts\"",
+        "test": "yarn _test --reporter=spec",
+        "tdd": "yarn _test --reporter=min --watch",
+        "build": "tsc",
+        "prepublishOnly": "yarn build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/michaelleeallen/mocha-junit-reporter"
+    },
+    "keywords": [
+        "mocha",
+        "junit",
+        "reporter"
+    ],
+    "author": {
+        "name": "Michael Allen",
+        "email": "michael.lee.allen@gmail.com"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "@sinonjs/fake-timers": "^7.1.2",
+        "@types/chai": "^4.2.21",
+        "@types/chai-xml": "^0.3.2",
+        "@types/debug": "^4.1.7",
+        "@types/md5": "^2.3.1",
+        "@types/mkdirp": "^1.0.2",
+        "@types/mocha": "^9.0.0",
+        "@types/node": "^16.7.1",
+        "@types/rimraf": "^3.0.2",
+        "@types/test-console": "^1.1.1",
+        "@types/xml": "^1.0.6",
+        "chai": "^4.3.4",
+        "chai-xml": "^0.4.0",
+        "cross-env": "^7.0.3",
+        "eslint": "^7.32.0",
+        "mocha": "^9.1.0",
+        "rimraf": "^3.0.2",
+        "source-map-support": "^0.5.19",
+        "test-console": "^2.0.0",
+        "ts-node": "^10.2.1",
+        "tslint": "^6.1.3",
+        "typescript": "^4.3.5",
+        "xmllint": "^0.1.1"
+    },
+    "dependencies": {
+        "debug": "^4.3.2",
+        "md5": "^2.3.0",
+        "mkdirp": "~1.0.4",
+        "strip-ansi": "<7.0.0",
+        "xml": "^1.0.1"
+    },
+    "peerDependencies": {
+        "mocha": ">=8.0.0"
+    }
 }

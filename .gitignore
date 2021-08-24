@@ -6,3 +6,6 @@ test/output/
 node-debug*
 npm-debug*
 test-results.xml
+*.js
+*.js.map
+*.d.ts
