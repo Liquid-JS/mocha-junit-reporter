@@ -1,3 +1,34 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+# [3.0.0](https://github.com/Liquid-JS/mocha-junit-reporter/compare/v2.0.1...v3.0.0) (2021-08-25)
+
+
+### Bug Fixes
+
+* always include root suite ([1a1e1db](https://github.com/Liquid-JS/mocha-junit-reporter/commit/1a1e1dbbfd39935289fc294d923f83de6c4de212))
+* clip time to 3 decimal places, to be in line with junit ([268b936](https://github.com/Liquid-JS/mocha-junit-reporter/commit/268b936a9bf57f821a3c4ff037ee14933e772fc4))
+
+
+### Features
+
+* allow to add jenkinsClassnamePrefix ([6119a34](https://github.com/Liquid-JS/mocha-junit-reporter/commit/6119a3477b7d57feb4391e268dd06f57dc18a23c))
+* include error diff in failure description ([1e615c4](https://github.com/Liquid-JS/mocha-junit-reporter/commit/1e615c4a966666fb75dcc12505e5431e5d746ff6))
+* use typescript, make it work in parallel mode ([753e85f](https://github.com/Liquid-JS/mocha-junit-reporter/commit/753e85f4a9c4e18563d63ee7e2f89b727f3914e7))
+
+
+### Performance Improvements
+
+* use node crypto for md5 hash ([3484a9b](https://github.com/Liquid-JS/mocha-junit-reporter/commit/3484a9b3f48555354402f82e7ea6eb483051677d))
+
+
+### BREAKING CHANGES
+
+* Drop support for node <12.x and mocha <8
+
+
+
 # [2.0.1](https://github.com/Liquid-JS/mocha-junit-reporter/compare/v2.0.0...v2.0.1) (2020-12-18)
 
 
@@ -128,6 +159,3 @@
 
 
 ## 1.0.1 (2015-03-02)
-
-
-
