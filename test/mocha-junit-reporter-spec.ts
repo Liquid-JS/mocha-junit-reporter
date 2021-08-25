@@ -5,6 +5,7 @@ import fs from 'fs'
 import Mocha, { ReporterConstructor, Runner, Suite, Test } from 'mocha'
 import path from 'path'
 import rimraf from 'rimraf'
+import stripAnsi from 'strip-ansi'
 import testConsole from 'test-console'
 // @ts-ignore
 import xmllint from 'xmllint'
@@ -359,9 +360,9 @@ describe('mocha-junit-reporter', () => {
         it('generates full suite title', (done) => {
             const reporter = createReporter({ useFullSuiteTitle: true })
             runTests(reporter, undefined, () => {
-                expect(suiteName(reporter._testsuites[0])).to.equal('')
-                expect(suiteName(reporter._testsuites[1])).to.equal('Root Suite Foo Bar')
-                expect(suiteName(reporter._testsuites[2])).to.equal('Root Suite Another suite!')
+                expect(reporter._testsuites[0].name).to.equal('')
+                expect(reporter._testsuites[1].name).to.equal('Root Suite Foo Bar')
+                expect(reporter._testsuites[2].name).to.equal('Root Suite Another suite!')
                 done()
             })
         })
@@ -369,16 +370,12 @@ describe('mocha-junit-reporter', () => {
         it('generates full suite title separated by "suiteTitleSeparatedBy" option', (done) => {
             const reporter = createReporter({ useFullSuiteTitle: true, suiteTitleSeparatedBy: '.' })
             runTests(reporter, undefined, () => {
-                expect(suiteName(reporter._testsuites[0])).to.equal('')
-                expect(suiteName(reporter._testsuites[1])).to.equal('Root Suite.Foo Bar')
-                expect(suiteName(reporter._testsuites[2])).to.equal('Root Suite.Another suite!')
+                expect(reporter._testsuites[0].name).to.equal('')
+                expect(reporter._testsuites[1].name).to.equal('Root Suite.Foo Bar')
+                expect(reporter._testsuites[2].name).to.equal('Root Suite.Another suite!')
                 done()
             })
         })
-
-        function suiteName(suite: Reporter['_testsuites'][0]) {
-            return suite.name
-        }
     })
 
     describe('when "outputs" option is specified', () => {
@@ -744,6 +741,47 @@ describe('mocha-junit-reporter', () => {
                 expect(reporter._testsuites[2].testData[0].name).to.equal('fail test')
                 expect(reporter._testsuites[2].testData[0].classname).to.equal('Added Prefix.Inner Suite.Another Suite')
 
+                done()
+            })
+        })
+    })
+
+    describe('Secondary reporter', () => {
+        it('properly loads secondary reporter', (done) => {
+            const reporter = createReporter({ secondaryReporter: Mocha.reporters.TAP })
+            expect(reporter._secondaryReporter).to.be.instanceOf(Mocha.reporters.TAP)
+
+            const reporter2 = createReporter({ secondaryReporter: 'mocha/lib/reporters/spec' })
+            expect(reporter2._secondaryReporter).to.be.instanceOf(Mocha.reporters.Spec)
+
+            const _stdout = mockStdout()
+            runTests(reporter, undefined, () => {
+                const x = stripAnsi(_stdout.output.join('\n'))
+                _stdout.restore()
+                expect(x).to.equal(`ok 1  Foo Bar can weez the juice
+
+not ok 2  Foo Bar can narfle the garthog
+
+  expected garthog to be dead
+
+  this is where the stack would be
+
+not ok 3  Foo Bar can behave like a flandip
+
+  expected baz to be masher, a hustler, an uninvited grasper of cone
+
+  stack
+
+ok 4  Another suite! works
+
+# tests 4
+
+# pass 2
+
+# fail 2
+
+1..4
+`)
                 done()
             })
         })
