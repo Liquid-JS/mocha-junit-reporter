@@ -213,6 +213,7 @@ output line 2
 | antHostname                    | `process.env.HOSTNAME` | hostname to use when running in `antMode`  will default to environment `HOSTNAME`                                       |
 | jenkinsMode                    | `false`                | if set to truthy value will return xml that will display nice results in Jenkins                                        |
 | jenkinsClassnamePrefix         | `null`                 | adds a prefix to a classname when running  in `jenkinsMode`                                                             |
+| secondaryReporter              | `null`                 | string or Reporter constructor to use as a secondary reporter                                                           |
 
 [github-badge]: https://github.com/Liquid-JS/mocha-junit-reporter/actions/workflows/test.yml/badge.svg
 

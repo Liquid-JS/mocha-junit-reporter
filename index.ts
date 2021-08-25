@@ -30,6 +30,7 @@ interface ReporterOptions {
     antHostname?: string
     jenkinsMode: boolean
     jenkinsClassnamePrefix?: string
+    secondaryReporter?: string | (new (runner: mocha.Runner, options?: any) => any)
 }
 
 // A subset of invalid characters as defined in http://www.w3.org/TR/xml/#charsets that can occur in e.g. stacktraces
@@ -208,6 +209,7 @@ class MochaJUnitReporter extends mocha.reporters.Base {
     _Date: typeof Date & { clock: { tick(val: number): void } }
     private testsuites: Map<string, ReturnType<MochaJUnitReporter['getTestsuiteData']>>
     _xml?: string
+    _secondaryReporter?: any
     constructor(runner: mocha.Runner, options: { reporterOptions: Partial<ReporterOptions>, [key: string]: any }) {
         super(runner)
         createStatsCollector(runner)
@@ -217,6 +219,14 @@ class MochaJUnitReporter extends mocha.reporters.Base {
         this._generateSuiteTitle = this._options.useFullSuiteTitle ? fullSuiteTitle : defaultSuiteTitle
         this._antId = 0
         this._Date = (options || {}).Date || Date
+
+        if (this._options.secondaryReporter)
+            if (typeof this._options.secondaryReporter == 'string') {
+                const claz = require(this._options.secondaryReporter)
+                this._secondaryReporter = new claz(runner, options)
+            } else {
+                this._secondaryReporter = new this._options.secondaryReporter(runner, options)
+            }
 
         this.testsuites = new Map<string, ReturnType<MochaJUnitReporter['getTestsuiteData']>>()
 
