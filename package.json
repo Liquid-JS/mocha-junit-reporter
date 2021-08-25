@@ -18,8 +18,8 @@
         "tdd": "yarn _test --reporter=min --watch",
         "build": "tsc",
         "prepublishOnly": "yarn build",
-        "postinstall": "husky install",
-        "release": "git diff --exit-code && standard-version --preset angular && git push --follow-tags origin"
+        "prepare": "husky install",
+        "release": "git diff --exit-code && standard-version --preset angular --releaseCommitMessageFormat \"chore: release v{{currentTag}}\" && git push --follow-tags origin"
     },
     "repository": {
         "type": "git",
@@ -42,7 +42,6 @@
         "@types/chai": "^4.2.21",
         "@types/chai-xml": "^0.3.2",
         "@types/debug": "^4.1.7",
-        "@types/md5": "^2.3.1",
         "@types/mkdirp": "^1.0.2",
         "@types/mocha": "^9.0.0",
         "@types/node": "^16.7.1",
@@ -67,7 +66,6 @@
     },
     "dependencies": {
         "debug": "^4.3.2",
-        "md5": "^2.3.0",
         "mkdirp": "~1.0.4",
         "strip-ansi": "<7.0.0",
         "xml": "^1.0.1"

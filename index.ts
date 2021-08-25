@@ -1,6 +1,6 @@
+import { createHash } from 'crypto'
 import Debug from 'debug'
 import fs from 'fs'
-import md5 from 'md5'
 import mkdirp from 'mkdirp'
 import mocha from 'mocha'
 import createStatsCollector from 'mocha/lib/stats-collector'
@@ -528,7 +528,7 @@ class MochaJUnitReporter extends mocha.reporters.Base {
     writeXmlToDisk(body: string, filePath: string) {
         if (filePath) {
             if (filePath.indexOf('[hash]') !== -1) {
-                filePath = filePath.replace('[hash]', md5(body))
+                filePath = filePath.replace('[hash]', createHash('md5').update(body).digest('hex'))
             }
 
             debug('writing file to', filePath)

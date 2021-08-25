@@ -11,7 +11,7 @@
         "noUnusedParameters": true,
         "module": "commonjs",
         "target": "es2017",
-        "importHelpers": true,
+        "importHelpers": false,
         "downlevelIteration": true,
         "skipLibCheck": true,
         "strict": true,
