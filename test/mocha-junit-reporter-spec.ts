@@ -701,28 +701,50 @@ describe('mocha-junit-reporter', () => {
                 done()
             })
         })
+    })
 
-        describe('Jenkins format', () => {
-            it('generates Jenkins compatible classnames and suite name', (done) => {
-                const reporter = createReporter({ jenkinsMode: true })
-                const rootSuite = reporter.runner.suite
+    describe('Jenkins format', () => {
+        it('generates Jenkins compatible classnames and suite name', (done) => {
+            const reporter = createReporter({ jenkinsMode: true })
+            const rootSuite = reporter.runner.suite
 
-                const suite1 = Suite.create(rootSuite, 'Inner Suite')
-                suite1.addTest(createTest('test'))
+            const suite1 = Suite.create(rootSuite, 'Inner Suite')
+            suite1.addTest(createTest('test'))
 
-                const suite2 = Suite.create(suite1, 'Another Suite')
-                suite2.addTest(createTest('fail test', undefined, d => d(new Error('failed test'))))
+            const suite2 = Suite.create(suite1, 'Another Suite')
+            suite2.addTest(createTest('fail test', undefined, d => d(new Error('failed test'))))
 
-                runRunner(reporter.runner, () => {
-                    expect(reporter._testsuites[0].name).to.equal('')
-                    expect(reporter._testsuites[1].testData[0].name).to.equal('test')
-                    expect(reporter._testsuites[1].testData[0].classname).to.equal('Inner Suite')
-                    expect(reporter._testsuites[2].name).to.equal('Root Suite.Inner Suite.Another Suite')
-                    expect(reporter._testsuites[2].testData[0].name).to.equal('fail test')
-                    expect(reporter._testsuites[2].testData[0].classname).to.equal('Inner Suite.Another Suite')
+            runRunner(reporter.runner, () => {
+                expect(reporter._testsuites[0].name).to.equal('')
+                expect(reporter._testsuites[1].testData[0].name).to.equal('test')
+                expect(reporter._testsuites[1].testData[0].classname).to.equal('Inner Suite')
+                expect(reporter._testsuites[2].name).to.equal('Root Suite.Inner Suite.Another Suite')
+                expect(reporter._testsuites[2].testData[0].name).to.equal('fail test')
+                expect(reporter._testsuites[2].testData[0].classname).to.equal('Inner Suite.Another Suite')
 
-                    done()
-                })
+                done()
+            })
+        })
+
+        it('prefix is added to a classname when jenkinsClassnamePrefix is specified', (done) => {
+            const reporter = createReporter({ jenkinsMode: true, jenkinsClassnamePrefix: 'Added Prefix' })
+            const rootSuite = reporter.runner.suite
+
+            const suite1 = Suite.create(rootSuite, 'Inner Suite')
+            suite1.addTest(createTest('test'))
+
+            const suite2 = Suite.create(suite1, 'Another Suite')
+            suite2.addTest(createTest('fail test', undefined, d => d(new Error('failed test'))))
+
+            runRunner(reporter.runner, () => {
+                expect(reporter._testsuites[0].name).to.equal('')
+                expect(reporter._testsuites[1].testData[0].name).to.equal('test')
+                expect(reporter._testsuites[1].testData[0].classname).to.equal('Added Prefix.Inner Suite')
+                expect(reporter._testsuites[2].name).to.equal('Root Suite.Inner Suite.Another Suite')
+                expect(reporter._testsuites[2].testData[0].name).to.equal('fail test')
+                expect(reporter._testsuites[2].testData[0].classname).to.equal('Added Prefix.Inner Suite.Another Suite')
+
+                done()
             })
         })
     })

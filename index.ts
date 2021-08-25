@@ -29,6 +29,7 @@ interface ReporterOptions {
     antMode: boolean
     antHostname?: string
     jenkinsMode: boolean
+    jenkinsClassnamePrefix?: string
 }
 
 // A subset of invalid characters as defined in http://www.w3.org/TR/xml/#charsets that can occur in e.g. stacktraces
@@ -173,6 +174,9 @@ function getJenkinsClassname(test: mocha.Test, options: ReporterOptions) {
     while (parent) {
         if (parent.title) titles.unshift(parent.title)
         parent = parent.parent
+    }
+    if (options.jenkinsClassnamePrefix) {
+        titles.unshift(options.jenkinsClassnamePrefix)
     }
     return titles.join(options.suiteTitleSeparatedBy)
 }
