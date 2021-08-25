@@ -9,3 +9,5 @@ test-results.xml
 *.js
 *.js.map
 *.d.ts
+!commitlint.config.js
+*.tgz

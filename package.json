@@ -1,11 +1,13 @@
 {
-    "name": "mocha-junit-reporter",
-    "version": "2.0.0",
+    "name": "@liquid-js/mocha-junit-reporter",
+    "version": "2.0.1",
     "description": "A JUnit reporter for mocha.",
     "main": "index.js",
     "types": "index.d.ts",
     "files": [
-        "index.js"
+        "index.js",
+        "index.d.ts",
+        "index.js.map"
     ],
     "scripts": {
         "ci": "yarn lint && yarn test",
@@ -15,11 +17,13 @@
         "test": "yarn _test --reporter=spec",
         "tdd": "yarn _test --reporter=min --watch",
         "build": "tsc",
-        "prepublishOnly": "yarn build"
+        "prepublishOnly": "yarn build",
+        "postinstall": "husky install",
+        "release": "git diff --exit-code && standard-version --preset angular && git push --follow-tags origin"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/michaelleeallen/mocha-junit-reporter"
+        "url": "https://github.com/Liquid-JS/mocha-junit-reporter"
     },
     "keywords": [
         "mocha",
@@ -32,6 +36,8 @@
     },
     "license": "MIT",
     "devDependencies": {
+        "@commitlint/cli": "^13.1.0",
+        "@commitlint/config-conventional": "^13.1.0",
         "@sinonjs/fake-timers": "^7.1.2",
         "@types/chai": "^4.2.21",
         "@types/chai-xml": "^0.3.2",
@@ -45,11 +51,14 @@
         "@types/xml": "^1.0.6",
         "chai": "^4.3.4",
         "chai-xml": "^0.4.0",
+        "conventional-changelog-cli": "^2.1.1",
         "cross-env": "^7.0.3",
         "eslint": "^7.32.0",
+        "husky": "^7.0.2",
         "mocha": "^9.1.0",
         "rimraf": "^3.0.2",
         "source-map-support": "^0.5.19",
+        "standard-version": "^9.3.1",
         "test-console": "^2.0.0",
         "ts-node": "^10.2.1",
         "tslint": "^6.1.3",

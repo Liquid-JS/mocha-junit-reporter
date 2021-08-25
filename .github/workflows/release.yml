@@ -1,0 +1,62 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+  
+    env:
+      CI: true
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - run: yarn
+      - run: yarn ci
+
+  publish-npm:
+    needs: test
+    runs-on: ubuntu-latest
+  
+    env:
+      CI: true
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+      - run: yarn
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-release:
+    needs: test
+    runs-on: ubuntu-latest
+  
+    env:
+      CI: true
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+      - run: yarn
+      - run: yarn conventional-changelog -p angular -r 2 -o changes.md
+      - run: yarn build
+      - run: yarn pack
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "liquid-js-mocha-junit-reporter-v*.tgz"
+          bodyFile: "changes.md"
+          token: ${{ secrets.GITHUB_TOKEN }}
