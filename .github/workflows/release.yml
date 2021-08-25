@@ -55,9 +55,9 @@ jobs:
       - run: yarn
       - run: yarn conventional-changelog -p angular -r 2 -o changes.md
       - run: yarn build
-      - run: yarn pack
+      - run: npm pack
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "liquid-js-mocha-junit-reporter-v*.tgz"
+          artifacts: "liquid-js-mocha-junit-reporter-*.tgz"
           bodyFile: "changes.md"
           token: ${{ secrets.GITHUB_TOKEN }}
