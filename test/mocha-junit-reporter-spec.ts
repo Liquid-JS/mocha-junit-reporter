@@ -327,6 +327,34 @@ describe('mocha-junit-reporter', () => {
         })
     })
 
+    it('properly outputs error diff', (done) => {
+        const reporter = createReporter()
+        const rootSuite = reporter.runner.suite
+        const suite = Suite.create(rootSuite, 'failing with diff')
+        suite.addTest(createTest('test 1', undefined, (d) => {
+            try {
+                expect(1).to.equal(2)
+                d()
+            } catch (err) {
+                d(err)
+            }
+        }))
+
+        runRunner(reporter.runner, () => {
+            reporter.runner.dispose()
+            expect(reporter._testsuites).to.have.lengthOf(2)
+            expect(reporter._testsuites[1].name).to.equal('failing with diff')
+            expect(reporter._testsuites[1].testData).to.have.lengthOf(1)
+            expect(reporter._testsuites[1].testData[0].name).to.equal('failing with diff test 1')
+            expect(reporter._testsuites[1].testData[0].failure?.message).to.equal('expected 1 to equal 2')
+            expect(reporter._testsuites[1].testData[0].failure?.description).to.contain(`      + expected - actual
+
+      -1
+      +2`)
+            done()
+        })
+    })
+
     describe('when "useFullSuiteTitle" option is specified', () => {
         it('generates full suite title', (done) => {
             const reporter = createReporter({ useFullSuiteTitle: true })

@@ -319,7 +319,12 @@ class MochaJUnitReporter extends mocha.reporters.Base {
             } else {
                 message = ''
             }
-            const failureMessage = err.stack || message
+
+            const diff = err.showDiff
+                ? '\n' + stripAnsi(mocha.reporters.Base.generateDiff(err.actual, err.expected))
+                : ''
+
+            const failureMessage = (err.stack || message) + diff
             failure = {
                 message: this.removeInvalidCharacters(message) || '',
                 type: err.operator || err.name || '',
