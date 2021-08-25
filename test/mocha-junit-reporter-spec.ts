@@ -656,50 +656,6 @@ describe('mocha-junit-reporter', () => {
         })
     })
 
-    describe('XML format', function () {
-        it('generates Jenkins compatible XML when in jenkinsMode', (done) => {
-            this.timeout(10000) // xmllint is very slow
-
-            const reporter = createReporter({ jenkinsMode: true })
-            const rootSuite = reporter.runner.suite
-
-            const suite1 = Suite.create(rootSuite, 'Inner Suite')
-            suite1.addTest(createTest('test'))
-
-            const suite2 = Suite.create(rootSuite, 'Another Suite')
-            suite2.addTest(createTest('test', undefined, d => d(new Error('failed test'))))
-
-            runRunner(reporter.runner, () => {
-                const schema = fs.readFileSync(path.join(__dirname, 'resources', 'jenkins-junit.xsd'))
-                const result = xmllint.validateXML({ xml: reporter._xml, schema: schema })
-                expect(result.errors).to.equal(null, JSON.stringify(reporter._xml))
-
-                done()
-            })
-        })
-
-        it('generates Ant compatible XML when in antMode', (done) => {
-            this.timeout(10000) // xmllint is very slow
-
-            const reporter = createReporter({ antMode: true })
-            const rootSuite = reporter.runner.suite
-
-            const suite1 = Suite.create(rootSuite, 'Inner Suite')
-            suite1.addTest(createTest('test'))
-
-            const suite2 = Suite.create(rootSuite, 'Another Suite')
-            suite2.addTest(createTest('test', undefined, (d) => d(new Error('failed test'))))
-
-            runRunner(reporter.runner, () => {
-                const schema = fs.readFileSync(path.join(__dirname, 'resources', 'JUnit.xsd'))
-                const result = xmllint.validateXML({ xml: reporter._xml, schema: schema })
-                expect(result.errors).to.equal(null, JSON.stringify(reporter._xml))
-
-                done()
-            })
-        })
-    })
-
     describe('Jenkins format', () => {
         it('generates Jenkins compatible classnames and suite name', (done) => {
             const reporter = createReporter({ jenkinsMode: true })
@@ -782,6 +738,51 @@ ok 4  Another suite! works
 
 1..4
 `)
+                done()
+            })
+        })
+    })
+
+    // Should be the last suite, for performance and output reasons
+    describe('XML format', function () {
+        it('generates Jenkins compatible XML when in jenkinsMode', (done) => {
+            this.timeout(10000) // xmllint is very slow
+
+            const reporter = createReporter({ jenkinsMode: true })
+            const rootSuite = reporter.runner.suite
+
+            const suite1 = Suite.create(rootSuite, 'Inner Suite')
+            suite1.addTest(createTest('test'))
+
+            const suite2 = Suite.create(rootSuite, 'Another Suite')
+            suite2.addTest(createTest('test', undefined, d => d(new Error('failed test'))))
+
+            runRunner(reporter.runner, () => {
+                const schema = fs.readFileSync(path.join(__dirname, 'resources', 'jenkins-junit.xsd'))
+                const result = xmllint.validateXML({ xml: reporter._xml, schema: schema })
+                expect(result.errors).to.equal(null, JSON.stringify(reporter._xml))
+
+                done()
+            })
+        })
+
+        it('generates Ant compatible XML when in antMode', (done) => {
+            this.timeout(10000) // xmllint is very slow
+
+            const reporter = createReporter({ antMode: true })
+            const rootSuite = reporter.runner.suite
+
+            const suite1 = Suite.create(rootSuite, 'Inner Suite')
+            suite1.addTest(createTest('test'))
+
+            const suite2 = Suite.create(rootSuite, 'Another Suite')
+            suite2.addTest(createTest('test', undefined, (d) => d(new Error('failed test'))))
+
+            runRunner(reporter.runner, () => {
+                const schema = fs.readFileSync(path.join(__dirname, 'resources', 'JUnit.xsd'))
+                const result = xmllint.validateXML({ xml: reporter._xml, schema: schema })
+                expect(result.errors).to.equal(null, JSON.stringify(reporter._xml))
+
                 done()
             })
         })
