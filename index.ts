@@ -427,7 +427,7 @@ class MochaJUnitReporter extends mocha.reporters.Base {
             .map(({ properties, testData, root, ...suite }) => {
                 const suiteAttr = {
                     ...suite,
-                    time: ((suite.time || 0) / 1000).toFixed(4),
+                    time: ((suite.time || 0) / 1000).toFixed(3),
                     timestamp: new this._Date(suite.timestamp).toISOString().slice(0, -5),
                     skipped: 0,
                     failures: 0,
@@ -454,7 +454,7 @@ class MochaJUnitReporter extends mocha.reporters.Base {
                                     {
                                         _attr: {
                                             ...test,
-                                            time: (test.time / 1000).toFixed(4)
+                                            time: (test.time / 1000).toFixed(3)
                                         }
                                     },
                                     ...failure
@@ -511,7 +511,7 @@ class MochaJUnitReporter extends mocha.reporters.Base {
             const rootSuite = {
                 _attr: {
                     name: this._options.testsuitesTitle,
-                    time: (stats?.duration && (stats?.duration / 1000) || 0).toFixed(4),
+                    time: (stats?.duration && (stats?.duration / 1000) || 0).toFixed(3),
                     tests: totalTests,
                     failures: stats?.failures || 0
                 } as xml.XmlAttrs

@@ -9,7 +9,7 @@ export = function (stats: mocha.Stats | undefined, options?: any) {
                     name: 'Mocha Tests',
                     tests: 4,
                     failures: '2',
-                    time: ((stats?.duration || 0) / 1000).toFixed(4)
+                    time: ((stats?.duration || 0) / 1000).toFixed(3)
                 }
             },
             {
@@ -20,7 +20,7 @@ export = function (stats: mocha.Stats | undefined, options?: any) {
                             timestamp: '1970-01-01T00:00:00', // ISO timestamp truncated to the second
                             tests: '0',
                             failures: '0',
-                            time: '0.0000'
+                            time: '0.000'
                         }
                     }
                 ]
@@ -33,7 +33,7 @@ export = function (stats: mocha.Stats | undefined, options?: any) {
                             timestamp: '1970-01-01T00:00:00',
                             tests: '3',
                             failures: '2',
-                            time: '100.0010'
+                            time: '100.001'
                         }
                     },
                     {
@@ -41,7 +41,7 @@ export = function (stats: mocha.Stats | undefined, options?: any) {
                             _attr: {
                                 name: 'Foo Bar can weez the juice',
                                 classname: 'can weez the juice',
-                                time: '0.1010'
+                                time: '0.101'
                             }
                         }
                     },
@@ -51,7 +51,7 @@ export = function (stats: mocha.Stats | undefined, options?: any) {
                                 _attr: {
                                     name: 'Foo Bar can narfle the garthog',
                                     classname: 'can narfle the garthog',
-                                    time: '2.0020'
+                                    time: '2.002'
                                 }
                             },
                             {
@@ -71,7 +71,7 @@ export = function (stats: mocha.Stats | undefined, options?: any) {
                                 _attr: {
                                     name: 'Foo Bar can behave like a flandip',
                                     classname: 'can behave like a flandip',
-                                    time: '30.0030'
+                                    time: '30.003'
                                 }
                             },
                             {
@@ -95,7 +95,7 @@ export = function (stats: mocha.Stats | undefined, options?: any) {
                             timestamp: '1970-01-01T00:01:40', // new Date(100001).toISOString().slice(0, -5)
                             tests: '1',
                             failures: '0',
-                            time: '400.0050'
+                            time: '400.005'
                         }
                     },
                     {
@@ -103,7 +103,7 @@ export = function (stats: mocha.Stats | undefined, options?: any) {
                             _attr: {
                                 name: 'Another suite! works',
                                 classname: 'works',
-                                time: '400.0040'
+                                time: '400.004'
                             }
                         }
                     }
@@ -146,7 +146,7 @@ export = function (stats: mocha.Stats | undefined, options?: any) {
                         tests: '1',
                         failures: '0',
                         skipped: '1',
-                        time: '0.0000'
+                        time: '0.000'
                     }
                 },
                 {
@@ -155,7 +155,7 @@ export = function (stats: mocha.Stats | undefined, options?: any) {
                             _attr: {
                                 name: 'Pending suite! pending',
                                 classname: 'pending',
-                                time: '0.0000'
+                                time: '0.000'
                             }
                         },
                         {
