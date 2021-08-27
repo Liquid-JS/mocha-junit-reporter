@@ -1,6 +1,6 @@
 {
     "name": "@liquid-js/mocha-junit-reporter",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "description": "A JUnit reporter for mocha.",
     "main": "index.js",
     "types": "index.d.ts",

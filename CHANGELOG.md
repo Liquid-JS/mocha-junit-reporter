@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [3.1.0](https://github.com/Liquid-JS/mocha-junit-reporter/compare/v3.0.0...v3.1.0) (2021-08-27)
+
+
+### Features
+
+* optionally include a secondary reporter, since junit doesn't produce human-friendly output ([e35b7a0](https://github.com/Liquid-JS/mocha-junit-reporter/commit/e35b7a0597756378640811f054f7dfa71284588d))
+
+
+
 # [3.0.0](https://github.com/Liquid-JS/mocha-junit-reporter/compare/v2.0.1...v3.0.0) (2021-08-25)
 
 
